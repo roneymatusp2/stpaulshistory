@@ -47,6 +47,7 @@ function App() {
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [showHouseSelection, setShowHouseSelection] = useState(false);
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
+  const [hasPlayedWelcomeAudio, setHasPlayedWelcomeAudio] = useState(false);
 
   const stPaulsQuestions: Question[] = ALL_STPAULS_QUESTIONS;
 
@@ -73,6 +74,9 @@ function App() {
   };
 
   const playIntroductionAudio = () => {
+    // Only play audio once per session
+    if (hasPlayedWelcomeAudio) return;
+    
     // Stop any currently playing audio to prevent overlapping
     if (currentAudio) {
       currentAudio.pause();
@@ -89,8 +93,10 @@ function App() {
     // Play the audio
     audio.play().then(() => {
       console.log('🎵 Welcome audio playing successfully!');
+      setHasPlayedWelcomeAudio(true);
     }).catch((error) => {
       console.log('Audio autoplay blocked by browser - this is normal:', error);
+      setHasPlayedWelcomeAudio(true);
     });
     
     // Clean up when audio ends
@@ -196,6 +202,35 @@ function App() {
   const getHouseEmblem = (houseName: string) => {
     const house = HOUSES.find(h => h.name === houseName);
     return house?.emblem || '👑';
+  };
+
+  const getHouseThemeBackground = (houseName: string) => {
+    switch (houseName) {
+      case 'Stuart':
+        return {
+          background: 'radial-gradient(ellipse at top, rgba(163, 40, 47, 0.25) 0%, rgba(139, 69, 19, 0.15) 30%, rgba(220, 20, 60, 0.12) 70%, rgba(178, 34, 34, 0.08) 100%), linear-gradient(135deg, #2c1810 0%, #4a1f1c 25%, #5d2a2a 50%, #3f1f1c 75%, #2c1810 100%)',
+          accentColor: '#a3282f',
+          particles: ['🌹', '⚔️', '👑', '🏰', '🛡️']
+        };
+      case 'Windsor':
+        return {
+          background: 'radial-gradient(ellipse at top, rgba(0, 47, 92, 0.25) 0%, rgba(25, 25, 112, 0.15) 30%, rgba(70, 130, 180, 0.12) 70%, rgba(30, 144, 255, 0.08) 100%), linear-gradient(135deg, #0f1a2e 0%, #1e2a4a 25%, #2a3f5f 50%, #1a2d47 75%, #0f1a2e 100%)',
+          accentColor: '#002f5c',
+          particles: ['👑', '⚖️', '🏛️', '💎', '🌟']
+        };
+      case 'Tudor':
+        return {
+          background: 'radial-gradient(ellipse at top, rgba(34, 139, 34, 0.25) 0%, rgba(0, 100, 0, 0.15) 30%, rgba(50, 205, 50, 0.12) 70%, rgba(144, 238, 144, 0.08) 100%), linear-gradient(135deg, #1a2f1a 0%, #2d4a2d 25%, #3f5f3f 50%, #2a4a2a 75%, #1a2f1a 100%)',
+          accentColor: '#228B22',
+          particles: ['🌹', '📚', '🎓', '🏰', '⚜️']
+        };
+      default:
+        return {
+          background: 'linear-gradient(135deg, #131313 0%, #373737 50%, #3f4449 100%)',
+          accentColor: '#a3282f',
+          particles: ['👑', '🏰', '📚']
+        };
+    }
   };
 
   if (gameState === 'setup') {
@@ -808,7 +843,7 @@ function App() {
                 gap: '15px'
               }}>
                 <button
-                  onClick={() => setupPlayers(1)}
+                  onClick={() => setShowHouseSelection(true)}
                   style={{
                     backgroundColor: '#636363',
                     color: 'white',
@@ -822,7 +857,7 @@ function App() {
                 >
                   <BookOpen style={{ width: '24px', height: '24px', margin: '0 auto 8px' }} />
                   <div>Individual</div>
-                  <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Solo Study</div>
+                  <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Choose House</div>
                 </button>
                 
                 <button
@@ -1056,23 +1091,57 @@ function App() {
   if (gameState === 'playing' && currentQuestion) {
     const currentPlayer = players[currentPlayerIndex];
     const isCorrect = selectedAnswer === currentQuestion.answer;
+    const houseTheme = getHouseThemeBackground(currentPlayer.house);
 
     return (
       <div style={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #131313 0%, #373737 50%, #3f4449 100%)',
-        padding: '20px'
+        background: houseTheme.background,
+        padding: '20px',
+        position: 'relative',
+        overflow: 'hidden'
       }}>
+        {/* House-themed floating particles */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 1
+        }}>
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={`house-particle-${i}`}
+              style={{
+                position: 'absolute',
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                fontSize: `${Math.random() * 2 + 1.5}rem`,
+                color: `${houseTheme.accentColor}40`,
+                animation: `twinkle ${Math.random() * 4 + 3}s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 6}s`,
+                filter: `drop-shadow(0 0 ${Math.random() * 15 + 10}px ${houseTheme.accentColor}60)`
+              }}
+            >
+              {houseTheme.particles[Math.floor(Math.random() * houseTheme.particles.length)]}
+            </div>
+          ))}
+        </div>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           {/* Header */}
           <div style={{
-            backgroundColor: 'rgba(255,255,255,0.1)',
+            backgroundColor: `${houseTheme.accentColor}20`,
             padding: '20px',
             borderRadius: '12px',
             marginBottom: '20px',
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center'
+            alignItems: 'center',
+            border: `2px solid ${houseTheme.accentColor}40`,
+            position: 'relative',
+            zIndex: 10
           }}>
             {/* Back to Home Button */}
             <button
@@ -1104,9 +1173,10 @@ function App() {
             </button>
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
               <div style={{
-                backgroundColor: '#a3282f',
+                backgroundColor: houseTheme.accentColor,
                 padding: '10px',
-                borderRadius: '50%'
+                borderRadius: '50%',
+                boxShadow: `0 0 20px ${houseTheme.accentColor}60`
               }}>
                 <School style={{ width: '24px', height: '24px', color: 'white' }} />
               </div>
@@ -1114,22 +1184,24 @@ function App() {
                 <h1 style={{ 
                   fontSize: '1.8rem', 
                   fontWeight: 'bold', 
-                  color: '#a3282f',
-                  margin: 0
+                  color: houseTheme.accentColor,
+                  margin: 0,
+                  textShadow: `0 0 10px ${houseTheme.accentColor}60`
                 }}>
                   St. Paul's History Challenge
                 </h1>
-                <p style={{ color: '#e5e5e5', margin: 0 }}>Centenary Edition Quiz</p>
+                <p style={{ color: '#e5e5e5', margin: 0 }}>House {currentPlayer.house} - Centenary Edition</p>
               </div>
             </div>
             <div style={{
               fontSize: '2rem',
               fontWeight: 'bold',
-              color: timeLeft <= 10 ? '#a3282f' : '#3f4449',
-              backgroundColor: 'rgba(0,0,0,0.3)',
+              color: timeLeft <= 10 ? '#ff4444' : houseTheme.accentColor,
+              backgroundColor: 'rgba(0,0,0,0.4)',
               padding: '10px 20px',
               borderRadius: '50%',
-              border: `2px solid ${timeLeft <= 10 ? '#a3282f' : '#3f4449'}`
+              border: `2px solid ${timeLeft <= 10 ? '#ff4444' : houseTheme.accentColor}`,
+              boxShadow: `0 0 20px ${timeLeft <= 10 ? '#ff4444' : houseTheme.accentColor}60`
             }}>
               {timeLeft}s
             </div>
@@ -1237,25 +1309,29 @@ function App() {
                   style={{
                     backgroundColor: showAnswer
                       ? selectedAnswer === key
-                        ? isCorrect ? '#3f4449' : '#a3282f'
-                        : 'rgba(255,255,255,0.1)'
+                        ? isCorrect ? houseTheme.accentColor : '#a3282f'
+                        : key === currentQuestion.answer ? houseTheme.accentColor + '40' : 'rgba(255,255,255,0.1)'
                       : 'rgba(255,255,255,0.1)',
                     color: 'white',
                     padding: '20px',
                     borderRadius: '8px',
-                    border: 'none',
+                    border: showAnswer && key === currentQuestion.answer ? `2px solid ${houseTheme.accentColor}` : 'none',
                     cursor: showAnswer ? 'default' : 'pointer',
                     textAlign: 'left',
-                    fontSize: '1rem'
+                    fontSize: '1rem',
+                    transition: 'all 0.3s ease',
+                    position: 'relative',
+                    zIndex: 10
                   }}
                 >
                   <span style={{
-                    backgroundColor: 'rgba(163,40,47,0.8)',
+                    backgroundColor: `${houseTheme.accentColor}CC`,
                     color: 'white',
                     padding: '4px 8px',
                     borderRadius: '4px',
                     marginRight: '10px',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    boxShadow: `0 0 10px ${houseTheme.accentColor}60`
                   }}>
                     {key}
                   </span>
@@ -1279,20 +1355,20 @@ function App() {
                 }}>
                   {isCorrect ? '✓ Excellent! Well done!' : 'Not quite right this time'}
                 </div>
-                {isCorrect && (
-                  <p style={{ color: 'white', fontSize: '1rem' }}>
-                    <span style={{ color: '#a3282f', fontWeight: 'bold' }}>
-                      Correct answer: 
-                    </span>
-                    <span style={{ fontWeight: 'bold', marginLeft: '5px' }}>
-                      {currentQuestion.options[currentQuestion.answer as keyof typeof currentQuestion.options]}
-                    </span>
-                  </p>
-                )}
                 {!isCorrect && (
-                  <p style={{ color: '#e5e5e5', fontStyle: 'italic' }}>
-                    Keep studying our magnificent school history! 📚
-                  </p>
+                  <div>
+                    <p style={{ color: 'white', fontSize: '1rem', marginBottom: '10px' }}>
+                      <span style={{ color: houseTheme.accentColor, fontWeight: 'bold' }}>
+                        Correct answer: 
+                      </span>
+                      <span style={{ fontWeight: 'bold', marginLeft: '5px' }}>
+                        {currentQuestion.options[currentQuestion.answer as keyof typeof currentQuestion.options]}
+                      </span>
+                    </p>
+                    <p style={{ color: '#e5e5e5', fontStyle: 'italic' }}>
+                      Keep studying our magnificent school history! 📚
+                    </p>
+                  </div>
                 )}
               </div>
             )}
