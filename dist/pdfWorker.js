@@ -1,1 +1,0 @@
-/* PDF.js worker script - This file is a placeholder that will be replaced at runtime */

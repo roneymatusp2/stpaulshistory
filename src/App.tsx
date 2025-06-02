@@ -15,21 +15,21 @@ const HOUSES = [
     color: '#002f5c',
     emblem: '👑',
     dynasty: '1371 – 1714',
-    officialImage: 'https://nyc.cloud.appwrite.io/v1/storage/buckets/683512fe002f611a996c/files/683cf8c7000ec713a8e7/view?project=680e68b10024125b5c0b'
+    officialImage: './images/stuart-original.png'
   },
   { 
     name: 'Tudor', 
     color: '#a3282f',
     emblem: '🌹',
     dynasty: '1485 – 1603',
-    officialImage: 'https://nyc.cloud.appwrite.io/v1/storage/buckets/683512fe002f611a996c/files/683cf949002a4ca4be03/view?project=680e68b10024125b5c0b'
+    officialImage: './images/tudor-original.png'
   },
   { 
     name: 'Windsor', 
     color: '#636363',
     emblem: '👑',
     dynasty: '1917 – Present',
-    officialImage: 'https://nyc.cloud.appwrite.io/v1/storage/buckets/683512fe002f611a996c/files/683cf9c5002a0d8ee73a/view?project=680e68b10024125b5c0b'
+    officialImage: './images/windsor-original.png'
   }
 ];
 
@@ -46,52 +46,13 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(30);
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [showHouseSelection, setShowHouseSelection] = useState(false);
-  const [audioPlayed, setAudioPlayed] = useState(false);
-  const [audioBlocked, setAudioBlocked] = useState(false);
-  const [showAudioPrompt, setShowAudioPrompt] = useState(false);
+  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
 
   const stPaulsQuestions: Question[] = ALL_STPAULS_QUESTIONS;
 
   useEffect(() => {
     setQuestions(stPaulsQuestions);
-    
-    // SUPER FORCE STRATEGY: Multiple parallel attempts
-    setTimeout(() => playIntroductionAudio(), 100);
-    setTimeout(() => playIntroductionAudio(), 300);
-    setTimeout(() => playIntroductionAudio(), 500);
-    setTimeout(() => playIntroductionAudio(), 1000);
-    setTimeout(() => playIntroductionAudio(), 2000);
-    
-    // Add listeners for ANY user interaction to trigger audio
-    const triggerAudio = () => {
-      if (!audioPlayed) {
-        playIntroductionAudio();
-      }
-    };
-    
-    // Add MANY event listeners for maximum coverage
-    document.addEventListener('click', triggerAudio);
-    document.addEventListener('touchstart', triggerAudio);
-    document.addEventListener('keydown', triggerAudio);
-    document.addEventListener('scroll', triggerAudio);
-    document.addEventListener('mousemove', triggerAudio);
-    document.addEventListener('mouseenter', triggerAudio);
-    document.addEventListener('focus', triggerAudio);
-    document.addEventListener('blur', triggerAudio);
-    window.addEventListener('focus', triggerAudio);
-    
-    return () => {
-      document.removeEventListener('click', triggerAudio);
-      document.removeEventListener('touchstart', triggerAudio);
-      document.removeEventListener('keydown', triggerAudio);
-      document.removeEventListener('scroll', triggerAudio);
-      document.removeEventListener('mousemove', triggerAudio);
-      document.removeEventListener('mouseenter', triggerAudio);
-      document.removeEventListener('focus', triggerAudio);
-      document.removeEventListener('blur', triggerAudio);
-      window.removeEventListener('focus', triggerAudio);
-    };
-  }, [audioPlayed]);
+  }, []);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -112,141 +73,37 @@ function App() {
   };
 
   const playIntroductionAudio = () => {
-    if (!audioPlayed) {
-      console.log('🔥 INICIANDO FORÇA TOTAL DO ÁUDIO!');
-      
-      // MEGA FORCE STRATEGY: Try EVERYTHING at once
-      const forceAudioMethods = [
-        
-        // Method 1: Standard Audio API
-        () => {
-          const audio = new Audio('./Audios/INTRODUCTION.wav');
-          audio.volume = 1.0;
-          audio.preload = 'auto';
-          audio.crossOrigin = 'anonymous';
-          audio.load();
-          
-          const attemptPlay = () => {
-            const playPromise = audio.play();
-            if (playPromise) {
-              playPromise.then(() => {
-                console.log('🎵 MÉTODO 1 SUCESSO!');
-                setAudioPlayed(true);
-              }).catch(() => {
-                // Try muted then unmute trick
-                audio.muted = true;
-                audio.play().then(() => {
-                  setTimeout(() => {
-                    audio.muted = false;
-                    console.log('🎵 MÉTODO 1 UNMUTE SUCESSO!');
-                    setAudioPlayed(true);
-                  }, 100);
-                }).catch(() => {});
-              });
-            }
-          };
-          
-          setTimeout(attemptPlay, 0);
-          setTimeout(attemptPlay, 100);
-          setTimeout(attemptPlay, 300);
-          setTimeout(attemptPlay, 500);
-        },
-        
-        // Method 2: Web Audio API Force
-        () => {
-          try {
-            const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-            const audioContext = new AudioContext();
-            
-            fetch('./Audios/INTRODUCTION.wav')
-              .then(response => response.arrayBuffer())
-              .then(data => audioContext.decodeAudioData(data))
-              .then(audioBuffer => {
-                const source = audioContext.createBufferSource();
-                source.buffer = audioBuffer;
-                source.connect(audioContext.destination);
-                source.start(0);
-                console.log('🎵 MÉTODO 2 WEB AUDIO SUCESSO!');
-                setAudioPlayed(true);
-              })
-              .catch(() => {});
-          } catch (e) {}
-        },
-        
-        // Method 3: Multiple Audio instances
-        () => {
-          for (let i = 0; i < 5; i++) {
-            setTimeout(() => {
-              const audio = new Audio('./Audios/INTRODUCTION.wav');
-              audio.volume = 1.0;
-              audio.play().then(() => {
-                console.log(`🎵 MÉTODO 3-${i} SUCESSO!`);
-                setAudioPlayed(true);
-              }).catch(() => {});
-            }, i * 200);
-          }
-        },
-        
-        // Method 4: Force with different timing
-        () => {
-          const audio = new Audio('./Audios/INTRODUCTION.wav');
-          audio.volume = 1.0;
-          
-          // Aggressive retry pattern
-          const aggressiveRetry = () => {
-            audio.play().then(() => {
-              console.log('🎵 MÉTODO 4 AGRESSIVO SUCESSO!');
-              setAudioPlayed(true);
-            }).catch(() => {});
-          };
-          
-          // Try multiple times with different delays
-          for (let i = 0; i < 20; i++) {
-            setTimeout(aggressiveRetry, i * 50);
-          }
-        }
-      ];
-      
-      // Execute ALL methods simultaneously
-      forceAudioMethods.forEach((method, index) => {
-        setTimeout(() => {
-          try {
-            method();
-          } catch (e) {
-            console.log(`Método ${index + 1} falhou:`, e);
-          }
-        }, index * 10);
-      });
-      
-      // LAST RESORT: Add event listeners for INSTANT interaction
-      const instantAudioTrigger = () => {
-        if (!audioPlayed) {
-          const audio = new Audio('./Audios/INTRODUCTION.wav');
-          audio.volume = 1.0;
-          audio.play().then(() => {
-            console.log('🎵 INTERAÇÃO INSTANTÂNEA SUCESSO!');
-            setAudioPlayed(true);
-          }).catch(() => {});
-        }
-      };
-      
-      // Add to EVERY possible user interaction
-      const events = ['click', 'touchstart', 'touchend', 'keydown', 'keyup', 'scroll', 'mousemove', 'mousedown', 'mouseup', 'focus', 'blur'];
-      events.forEach(event => {
-        document.addEventListener(event, instantAudioTrigger, { once: true });
-        window.addEventListener(event, instantAudioTrigger, { once: true });
-      });
+    // Stop any currently playing audio to prevent overlapping
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
     }
+    
+    // Create new audio instance
+    const audio = new Audio('./Audios/INTRODUCTION.wav');
+    audio.volume = 1.0;
+    
+    // Set as current audio for cleanup
+    setCurrentAudio(audio);
+    
+    // Play the audio
+    audio.play().then(() => {
+      console.log('🎵 Welcome audio playing successfully!');
+    }).catch((error) => {
+      console.log('Audio autoplay blocked by browser - this is normal:', error);
+    });
+    
+    // Clean up when audio ends
+    audio.addEventListener('ended', () => {
+      setCurrentAudio(null);
+    });
   };
 
-  // Function to manually trigger audio (for browsers that block autoplay)
-  const tryPlayAudio = () => {
-    if (!audioPlayed) {
-      playIntroductionAudio();
-    }
-  };
 
   const setupPlayers = (numPlayers: number, selectedHouse?: string) => {
+    // Play welcome audio when starting any game
+    playIntroductionAudio();
+    
     const newPlayers: Player[] = [];
     
     if (numPlayers === 1 && selectedHouse) {
@@ -273,6 +130,13 @@ function App() {
   };
 
   const resetGame = () => {
+    // Stop any playing audio when resetting
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      setCurrentAudio(null);
+    }
+    
     setGameState('setup');
     setPlayers([]);
     setCurrentPlayerIndex(0);
@@ -834,7 +698,7 @@ function App() {
                   <div 
                     key={house.name}
                     style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                      backgroundColor: 'transparent',
                       border: `4px solid ${house.color}`,
                       borderRadius: '18px',
                       overflow: 'hidden',
@@ -860,7 +724,7 @@ function App() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor: 'rgba(255,255,255,0.05)',
+                      backgroundColor: 'transparent',
                       overflow: 'hidden'
                     }}>
                       <img 
@@ -1104,7 +968,7 @@ function App() {
                       setShowHouseSelection(false);
                     }}
                     style={{
-                      backgroundColor: 'white',
+                      backgroundColor: 'transparent',
                       border: `4px solid ${house.color}`,
                       borderRadius: '18px',
                       overflow: 'hidden',
@@ -1129,7 +993,7 @@ function App() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor: 'rgba(255,255,255,0.05)'
+                      backgroundColor: 'transparent'
                     }}>
                       <img 
                         src={house.officialImage}
