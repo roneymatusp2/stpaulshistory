@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="75ee95c3-9f66-4758-9e54-3d2332d8f446" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2v1NvrrFQnpEdMlfU9BYFRjpxi7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/roney/WebstormProjects/St Paul's History",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\roney\\WebstormProjects\\St Paul's History\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="git fetch origin git reset --hard origin/main" />
+    </option>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-WS-251.25410.117" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="75ee95c3-9f66-4758-9e54-3d2332d8f446" name="Changes" comment="" />
+      <created>1743308853822</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1743308853822</updated>
+      <workItem from="1743308854946" duration="511000" />
+      <workItem from="1743309535294" duration="399000" />
+      <workItem from="1743309942924" duration="7876000" />
+      <workItem from="1743374373599" duration="1438000" />
+      <workItem from="1743390774608" duration="6000" />
+      <workItem from="1743425383025" duration="2991000" />
+      <workItem from="1743431030723" duration="7000" />
+      <workItem from="1743446641766" duration="3111000" />
+      <workItem from="1743455983540" duration="8608000" />
+      <workItem from="1743465231468" duration="5327000" />
+      <workItem from="1743502572910" duration="5561000" />
+      <workItem from="1743528522799" duration="5084000" />
+      <workItem from="1743538934461" duration="2555000" />
+      <workItem from="1743555959824" duration="12535000" />
+      <workItem from="1743589645643" duration="4512000" />
+      <workItem from="1743610394438" duration="4008000" />
+      <workItem from="1743635677186" duration="9000" />
+      <workItem from="1743647622035" duration="592000" />
+      <workItem from="1743683898180" duration="821000" />
+      <workItem from="1743684849314" duration="1260000" />
+      <workItem from="1743704649035" duration="2675000" />
+      <workItem from="1743772823263" duration="9000" />
+      <workItem from="1744039671760" duration="17000" />
+      <workItem from="1745633233351" duration="18000" />
+      <workItem from="1745633352045" duration="9000" />
+      <workItem from="1745636332718" duration="23000" />
+      <workItem from="1748821265100" duration="14627000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
