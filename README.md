@@ -123,7 +123,7 @@ The application is deployed on Netlify with automatic builds from the main branc
 - **Modular question system** for easy content updates
 
 ### Performance
-- **Optimized images** with proper compression
+- **Optimised images** with proper compression
 - **Lazy loading** for better performance
 - **Efficient animations** with CSS transforms
 - **Minimal bundle size** through tree shaking
