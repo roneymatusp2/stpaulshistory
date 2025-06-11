@@ -12,21 +12,21 @@ interface Player {
 const HOUSES = [
   { 
     name: 'Stuart', 
-    color: '#002f5c',
+    color: '#001d31',  // Official Indigo Blue
     emblem: '👑',
     dynasty: '1371 – 1714',
     officialImage: './images/stuart-original.png'
   },
   { 
     name: 'Tudor', 
-    color: '#a3282f',
+    color: '#820021',  // Official Ruby Red
     emblem: '🌹',
     dynasty: '1485 – 1603',
     officialImage: './images/tudor-original.png'
   },
   { 
     name: 'Windsor', 
-    color: '#636363',
+    color: '#002718',  // Official British Green
     emblem: '👑',
     dynasty: '1917 – Present',
     officialImage: './images/windsor-original.png'
@@ -205,885 +205,168 @@ function App() {
   };
 
   const getHouseThemeBackground = (houseName: string) => {
-    switch (houseName) {
-      case 'Stuart':
-        return {
-          background: 'radial-gradient(ellipse at top, rgba(163, 40, 47, 0.25) 0%, rgba(139, 69, 19, 0.15) 30%, rgba(220, 20, 60, 0.12) 70%, rgba(178, 34, 34, 0.08) 100%), linear-gradient(135deg, #2c1810 0%, #4a1f1c 25%, #5d2a2a 50%, #3f1f1c 75%, #2c1810 100%)',
-          accentColor: '#a3282f',
-          particles: ['🌹', '⚔️', '👑', '🏰', '🛡️']
-        };
-      case 'Windsor':
-        return {
-          background: 'radial-gradient(ellipse at top, rgba(0, 47, 92, 0.25) 0%, rgba(25, 25, 112, 0.15) 30%, rgba(70, 130, 180, 0.12) 70%, rgba(30, 144, 255, 0.08) 100%), linear-gradient(135deg, #0f1a2e 0%, #1e2a4a 25%, #2a3f5f 50%, #1a2d47 75%, #0f1a2e 100%)',
-          accentColor: '#002f5c',
-          particles: ['👑', '⚖️', '🏛️', '💎', '🌟']
-        };
-      case 'Tudor':
-        return {
-          background: 'radial-gradient(ellipse at top, rgba(34, 139, 34, 0.25) 0%, rgba(0, 100, 0, 0.15) 30%, rgba(50, 205, 50, 0.12) 70%, rgba(144, 238, 144, 0.08) 100%), linear-gradient(135deg, #1a2f1a 0%, #2d4a2d 25%, #3f5f3f 50%, #2a4a2a 75%, #1a2f1a 100%)',
-          accentColor: '#228B22',
-          particles: ['🌹', '📚', '🎓', '🏰', '⚜️']
-        };
-      default:
-        return {
-          background: 'linear-gradient(135deg, #131313 0%, #373737 50%, #3f4449 100%)',
-          accentColor: '#a3282f',
-          particles: ['👑', '🏰', '📚']
-        };
-    }
+    const house = HOUSES.find(h => h.name === houseName);
+    if (!house) return '#ffffff';
+    
+    // Official gradient based on brandbook specifications
+    const houseGradients = {
+      'Tudor': 'linear-gradient(135deg, #820021 0%, #2b000b 100%)',     // Ruby Red gradient
+      'Stuart': 'linear-gradient(135deg, #001d31 0%, #000a10 100%)',    // Indigo Blue gradient  
+      'Windsor': 'linear-gradient(135deg, #002718 0%, #000c08 100%)'    // British Green gradient
+    };
+    
+    return houseGradients[houseName as keyof typeof houseGradients] || '#ffffff';
   };
 
   if (gameState === 'setup') {
     return (
-      <div style={{ 
-        minHeight: '100vh', 
-        background: 'radial-gradient(ellipse at top, rgba(163, 40, 47, 0.15) 0%, rgba(55, 55, 55, 0.1) 30%, rgba(0, 47, 92, 0.08) 70%, rgba(99, 99, 99, 0.05) 100%), linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)',
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #131313 0%, #373737 50%, #820021 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: '20px',
-        position: 'relative',
-        overflow: 'hidden',
-        fontFamily: '"Playfair Display", "Georgia", "Times New Roman", serif'
+        fontFamily: "'Century Gothic', 'Segoe UI', sans-serif"
       }}>
-        {/* Advanced Animated Background */}
         <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
+          backgroundColor: 'rgba(255,255,255,0.1)',
+          backdropFilter: 'blur(10px)',
+          padding: '60px',
+          borderRadius: '20px',
+          textAlign: 'center',
+          maxWidth: '900px',
           width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
-          zIndex: 1
+          boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
         }}>
-          {/* Magical Floating Particles */}
-          {[...Array(12)].map((_, i) => (
-            <div
-              key={`particle-${i}`}
-              style={{
-                position: 'absolute',
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                width: `${Math.random() * 4 + 2}px`,
-                height: `${Math.random() * 4 + 2}px`,
-                background: `rgba(${Math.random() > 0.5 ? '255, 215, 0' : '163, 40, 47'}, ${Math.random() * 0.8 + 0.2})`,
-                borderRadius: '50%',
-                animation: `twinkle ${Math.random() * 3 + 2}s ease-in-out infinite`,
-                animationDelay: `${Math.random() * 5}s`,
-                boxShadow: `0 0 ${Math.random() * 10 + 5}px rgba(255, 215, 0, 0.5)`
-              }}
-            />
-          ))}
-
-          {/* Floating Royal Elements */}
-          <div style={{
-            position: 'absolute',
-            top: '8%',
-            left: '3%',
-            fontSize: '4rem',
-            color: 'rgba(255, 215, 0, 0.3)',
-            animation: 'majesticFloat 25s ease-in-out infinite',
-            animationDelay: '0s',
-            filter: 'drop-shadow(0 0 20px rgba(255, 215, 0, 0.5))'
-          }}>🏛️</div>
-          
-          <div style={{
-            position: 'absolute',
-            top: '15%',
-            right: '8%',
-            fontSize: '3.5rem',
-            color: 'rgba(163, 40, 47, 0.4)',
-            animation: 'royalSway 30s ease-in-out infinite',
-            animationDelay: '5s',
-            filter: 'drop-shadow(0 0 15px rgba(163, 40, 47, 0.6))'
-          }}>👑</div>
-          
-          <div style={{
-            position: 'absolute',
-            bottom: '12%',
-            left: '5%',
-            fontSize: '3rem',
-            color: 'rgba(0, 47, 92, 0.35)',
-            animation: 'academicDrift 28s ease-in-out infinite',
-            animationDelay: '10s',
-            filter: 'drop-shadow(0 0 18px rgba(0, 47, 92, 0.5))'
-          }}>📚</div>
-          
-          <div style={{
-            position: 'absolute',
-            top: '55%',
-            right: '4%',
-            fontSize: '3.8rem',
-            color: 'rgba(255, 215, 0, 0.25)',
-            animation: 'nobilitySpin 35s ease-in-out infinite',
-            animationDelay: '15s',
-            filter: 'drop-shadow(0 0 25px rgba(255, 215, 0, 0.4))'
-          }}>⚜️</div>
-          
-          <div style={{
-            position: 'absolute',
-            bottom: '20%',
-            right: '12%',
-            fontSize: '3.2rem',
-            color: 'rgba(99, 99, 99, 0.3)',
-            animation: 'castleGlow 32s ease-in-out infinite',
-            animationDelay: '8s',
-            filter: 'drop-shadow(0 0 20px rgba(99, 99, 99, 0.4))'
-          }}>🏰</div>
-
-          {/* Advanced Geometric Animations */}
-          <div style={{
-            position: 'absolute',
-            top: '25%',
-            left: '12%',
-            width: '150px',
-            height: '150px',
-            background: 'conic-gradient(from 0deg, rgba(163, 40, 47, 0.1), rgba(255, 215, 0, 0.1), rgba(0, 47, 92, 0.1), rgba(163, 40, 47, 0.1))',
-            borderRadius: '50%',
-            animation: 'prismaticRotate 45s linear infinite',
-            filter: 'blur(1px)'
-          }}></div>
-          
-          <div style={{
-            position: 'absolute',
-            bottom: '35%',
-            right: '18%',
-            width: '120px',
-            height: '120px',
-            background: 'radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, rgba(163, 40, 47, 0.1) 50%, transparent 100%)',
-            borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
-            animation: 'morphBlob 20s ease-in-out infinite',
-            filter: 'blur(0.5px)'
-          }}></div>
-
-          {/* Mystical Aura Effects */}
-          <div style={{
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            width: '100%',
-            height: '100%',
-            background: `
-              radial-gradient(circle at 20% 30%, rgba(163, 40, 47, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 40% 80%, rgba(0, 47, 92, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 90% 70%, rgba(99, 99, 99, 0.06) 0%, transparent 50%)
-            `,
-            animation: 'auraShift 40s ease-in-out infinite'
-          }}></div>
-        </div>
-
-        {/* Advanced CSS Animations */}
-        <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
-          
-          @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-          }
-
-          @keyframes majesticFloat {
-            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); }
-            25% { transform: translateY(-30px) translateX(15px) rotate(3deg) scale(1.05); }
-            50% { transform: translateY(-20px) translateX(-10px) rotate(-2deg) scale(0.95); }
-            75% { transform: translateY(-25px) translateX(8px) rotate(1deg) scale(1.02); }
-          }
-
-          @keyframes royalSway {
-            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-            33% { transform: translateY(-25px) rotate(5deg) scale(1.1); }
-            66% { transform: translateY(-15px) rotate(-3deg) scale(0.9); }
-          }
-
-          @keyframes academicDrift {
-            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
-            25% { transform: translateY(-20px) translateX(-15px) rotate(-5deg); }
-            50% { transform: translateY(-35px) translateX(20px) rotate(3deg); }
-            75% { transform: translateY(-10px) translateX(-8px) rotate(-2deg); }
-          }
-
-          @keyframes nobilitySpin {
-            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-            25% { transform: translateY(-30px) rotate(90deg) scale(1.15); }
-            50% { transform: translateY(-15px) rotate(180deg) scale(0.85); }
-            75% { transform: translateY(-25px) rotate(270deg) scale(1.05); }
-          }
-
-          @keyframes castleGlow {
-            0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 20px rgba(99, 99, 99, 0.4)); }
-            50% { transform: translateY(-20px) scale(1.08); filter: drop-shadow(0 0 30px rgba(99, 99, 99, 0.7)); }
-          }
-
-          @keyframes prismaticRotate {
-            0% { transform: rotate(0deg) scale(1); }
-            25% { transform: rotate(90deg) scale(1.1); }
-            50% { transform: rotate(180deg) scale(0.9); }
-            75% { transform: rotate(270deg) scale(1.05); }
-            100% { transform: rotate(360deg) scale(1); }
-          }
-
-          @keyframes morphBlob {
-            0%, 100% { 
-              border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-              transform: rotate(0deg) scale(1);
-            }
-            25% { 
-              border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-              transform: rotate(90deg) scale(1.1);
-            }
-            50% { 
-              border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
-              transform: rotate(180deg) scale(0.9);
-            }
-            75% { 
-              border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
-              transform: rotate(270deg) scale(1.05);
-            }
-          }
-
-          @keyframes auraShift {
-            0%, 100% { 
-              transform: translateX(0%) translateY(0%) scale(1); 
-              opacity: 1; 
-            }
-            25% { 
-              transform: translateX(5%) translateY(-3%) scale(1.05); 
-              opacity: 0.8; 
-            }
-            50% { 
-              transform: translateX(-3%) translateY(5%) scale(0.95); 
-              opacity: 1.2; 
-            }
-            75% { 
-              transform: translateX(2%) translateY(-2%) scale(1.02); 
-              opacity: 0.9; 
-            }
-          }
-
-          @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
-          }
-          
-          @keyframes mysticalPulse {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.05); opacity: 1; }
-          }
-
-          @keyframes etherealGlow {
-            0%, 100% { 
-              box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 0 40px rgba(163, 40, 47, 0.2);
-            }
-            50% { 
-              box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(163, 40, 47, 0.4);
-            }
-          }
-          
-          .elegant-title {
-            background: linear-gradient(45deg, #ffd700 0%, #a3282f 25%, #002f5c 50%, #a3282f 75%, #ffd700 100%);
-            background-size: 400% 100%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 4s ease-in-out infinite;
-            filter: drop-shadow(0 4px 8px rgba(163, 40, 47, 0.5));
-          }
-
-          .mystical-card {
-            animation: mysticalPulse 8s ease-in-out infinite;
-          }
-
-          .ethereal-border {
-            animation: etherealGlow 6s ease-in-out infinite;
-          }
-        `}</style>
-
-        {/* Header with Enhanced Typography */}
-        <div style={{ textAlign: 'center', marginBottom: '40px', position: 'relative', zIndex: 10 }}>
-          <h1 className="elegant-title" style={{ 
-            fontSize: '3.2rem', 
-            fontWeight: '900', 
-            marginBottom: '10px',
-            fontFamily: '"Playfair Display", serif',
-            letterSpacing: '2px',
-            lineHeight: '1.1'
-          }}>
-            ST. PAUL'S SCHOOL
-          </h1>
-          <h2 style={{
-            fontSize: '2rem',
-            fontWeight: '700',
-            color: '#373737',
-            marginBottom: '8px',
-            fontFamily: '"Playfair Display", serif',
-            letterSpacing: '1px'
-          }}>
-            HISTORY QUIZ
-          </h2>
-          <div style={{
-            display: 'inline-block',
-            background: 'linear-gradient(135deg, #a3282f, #373737)',
-            color: 'white',
-            padding: '8px 24px',
-            borderRadius: '25px',
-            fontSize: '1.1rem',
-            fontWeight: '600',
-            fontFamily: '"Crimson Text", serif',
-            letterSpacing: '0.5px',
-            boxShadow: '0 4px 15px rgba(163, 40, 47, 0.3)',
-            marginBottom: '12px'
-          }}>
-            🏛️ CENTENARY EDITION 🏛️
-          </div>
-          <p style={{ 
-            fontSize: '1.3rem', 
-            color: '#636363',
-            fontFamily: '"Crimson Text", serif',
-            fontStyle: 'italic',
-            fontWeight: '400'
-          }}>
-            1926 ➤ 2026 • Nearly a Century of Excellence
-          </p>
-        </div>
-
-        {/* Main Content */}
-        <div style={{ 
-          maxWidth: '1200px', 
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '40px',
-          position: 'relative',
-          zIndex: 10
-        }}>
-          
-          {/* Left Side - Headmaster */}
-          <div className="mystical-card ethereal-border" style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            padding: '30px',
-            borderRadius: '25px',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
-            backdropFilter: 'blur(15px)',
-            border: '2px solid rgba(255, 215, 0, 0.3)',
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)'
-          }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{
-                background: 'linear-gradient(135deg, #a3282f, #373737)',
-                color: 'white',
-                padding: '12px 24px',
-                borderRadius: '25px',
-                fontSize: '1rem',
-                fontWeight: '700',
-                marginBottom: '20px',
-                display: 'inline-block',
-                fontFamily: '"Playfair Display", serif',
-                letterSpacing: '1px',
-                boxShadow: '0 4px 15px rgba(163, 40, 47, 0.3)',
-                textTransform: 'uppercase'
-              }}>
-                👑 HEADMASTER 👑
-              </div>
-              
-              <div style={{ marginBottom: '20px' }}>
-                <img 
-                  src="./images/titus-edge-nobg.jpg"
-                  alt="Mr. Titus Edge" 
-                  style={{
-                    width: '200px',
-                    height: '200px',
-                    borderRadius: '12px',
-                    objectFit: 'cover',
-                    border: '3px solid #a3282f',
-                    marginBottom: '15px'
-                  }}
-                />
-                <h3 style={{ 
-                  fontSize: '1.8rem', 
-                  fontWeight: '700', 
-                  color: '#ffffff',
-                  marginBottom: '8px',
-                  fontFamily: '"Playfair Display", serif',
-                  letterSpacing: '0.5px',
-                  textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
-                }}>
-                  Mr. Titus Edge
-                </h3>
-                <p style={{ 
-                  fontSize: '1rem', 
-                  color: '#f0f0f0',
-                  fontFamily: '"Crimson Text", serif',
-                  fontStyle: 'italic',
-                  textShadow: '1px 1px 3px rgba(0,0,0,0.8)'
-                }}>
-                  🏴󠁧󠁢󠁳󠁣󠁴󠁿 Formerly of Gordonstoun School, Scotland
-                </p>
-              </div>
-
-              <blockquote style={{
-                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08))',
-                padding: '20px',
-                borderLeft: '5px solid #a3282f',
-                borderRadius: '12px',
-                fontStyle: 'italic',
-                fontSize: '1.2rem',
-                color: '#ffffff',
-                marginBottom: '20px',
-                fontFamily: '"Crimson Text", serif',
-                fontWeight: '600',
-                lineHeight: '1.4',
-                position: 'relative',
-                boxShadow: '0 4px 12px rgba(163, 40, 47, 0.3)',
-                textShadow: '1px 1px 2px rgba(0,0,0,0.7)'
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  top: '-8px',
-                  left: '20px',
-                  backgroundColor: '#a3282f',
-                  color: 'white',
-                  padding: '4px 12px',
-                  borderRadius: '12px',
-                  fontSize: '0.8rem',
-                  fontWeight: '700',
-                  fontFamily: '"Playfair Display", serif'
-                }}>
-                  WELCOME MESSAGE
-                </div>
-                "Welcome to our magnificent centenary celebration quiz!"
-              </blockquote>
-
-              <div style={{
-                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06))',
-                padding: '20px',
-                borderRadius: '15px',
-                textAlign: 'left',
-                border: '1px solid rgba(163, 40, 47, 0.3)',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
-              }}>
-                <h4 style={{ 
-                  fontWeight: '700', 
-                  marginBottom: '12px', 
-                  color: '#ffffff',
-                  fontFamily: '"Playfair Display", serif',
-                  fontSize: '1.2rem',
-                  letterSpacing: '0.5px',
-                  textShadow: '1px 1px 2px rgba(0,0,0,0.7)'
-                }}>
-                  🏛️ About St. Paul's School
-                </h4>
-                <p style={{ 
-                  fontSize: '1rem', 
-                  lineHeight: '1.6', 
-                  color: '#f0f0f0',
-                  fontFamily: '"Crimson Text", serif',
-                  textShadow: '1px 1px 2px rgba(0,0,0,0.6)'
-                }}>
-                  Founded in <strong>1926</strong>, St. Paul's School is one of Brazil's most prestigious 
-                  British international schools, with nearly a century of educational excellence.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side - Game Setup */}
-          <div>
-            {/* Houses */}
-            <div className="mystical-card ethereal-border" style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              padding: '30px',
-              borderRadius: '25px',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
-              marginBottom: '20px',
-              backdropFilter: 'blur(15px)',
-              border: '2px solid rgba(255, 215, 0, 0.3)',
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)'
+          <div style={{ marginBottom: '30px' }}>
+            <School style={{ 
+              width: '120px', 
+              height: '120px', 
+              color: '#820021', 
+              margin: '0 auto 20px',
+              filter: 'drop-shadow(0 0 20px rgba(130,0,33,0.3))'
+            }} />
+            <h1 style={{ 
+              color: 'white', 
+              fontSize: '3.5rem', 
+              marginBottom: '10px',
+              fontWeight: 'bold',
+              textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>
-              <h3 style={{ 
-                fontSize: '2.2rem', 
-                fontWeight: '900', 
-                textAlign: 'center', 
-                marginBottom: '8px',
-                color: '#a3282f',
-                fontFamily: '"Playfair Display", serif',
-                letterSpacing: '1px'
-              }}>
-                👑 Royal House Competition 👑
-              </h3>
-              <div style={{
-                textAlign: 'center',
-                marginBottom: '25px',
-                background: 'linear-gradient(135deg, #a3282f, #373737)',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '20px',
-                display: 'inline-block',
-                fontSize: '1rem',
-                fontWeight: '600',
-                fontFamily: '"Crimson Text", serif',
-                boxShadow: '0 4px 12px rgba(163, 40, 47, 0.3)'
-              }}>
-                Since 1931: British Royal House System
-              </div>
-
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '15px',
-                marginBottom: '20px'
-              }}>
-                {HOUSES.map((house) => (
-                  <div 
-                    key={house.name}
-                    style={{
-                      backgroundColor: 'transparent',
-                      border: `4px solid ${house.color}`,
-                      borderRadius: '18px',
-                      overflow: 'hidden',
-                      textAlign: 'center',
-                      boxShadow: `0 8px 25px rgba(0,0,0,0.3), 0 0 20px ${house.color}30`,
-                      transform: 'translateY(0)',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer',
-                      position: 'relative'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
-                      e.currentTarget.style.boxShadow = `0 12px 35px rgba(0,0,0,0.4), 0 0 30px ${house.color}50`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                      e.currentTarget.style.boxShadow = `0 8px 25px rgba(0,0,0,0.3), 0 0 20px ${house.color}30`;
-                    }}
-                  >
-                    <div style={{
-                      height: '140px',
-                      position: 'relative',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent',
-                      overflow: 'hidden'
-                    }}>
-                      <img 
-                        src={house.officialImage}
-                        alt={`${house.name} House`}
-                        style={{
-                          maxWidth: '100%',
-                          maxHeight: '100%',
-                          objectFit: 'contain',
-                          display: 'block'
-                        }}
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                      <div style={{
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                        backgroundColor: `${house.color}`,
-                        color: 'white',
-                        borderRadius: '50%',
-                        width: '35px',
-                        height: '35px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '1.3rem',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
-                      }}>
-                        {house.emblem}
-                      </div>
-                    </div>
-                    <div style={{ padding: '12px', backgroundColor: house.color }}>
-                      <h4 style={{ 
-                        fontWeight: 'bold', 
-                        fontSize: '0.9rem',
-                        color: 'white',
-                        margin: '0 0 4px 0'
-                      }}>
-                        {house.name}
-                      </h4>
-                      <p style={{ 
-                        fontSize: '0.7rem', 
-                        opacity: 0.9,
-                        color: 'white',
-                        margin: 0
-                      }}>
-                        {house.dynasty}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Game Modes */}
-            <div className="mystical-card ethereal-border" style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              padding: '30px',
-              borderRadius: '25px',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
-              backdropFilter: 'blur(15px)',
-              border: '2px solid rgba(255, 215, 0, 0.3)',
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)'
+              St. Paul's School
+            </h1>
+            <h2 style={{ 
+              color: '#820021', 
+              fontSize: '2.5rem',
+              marginBottom: '10px',
+              fontWeight: 'normal'
             }}>
-              <h4 style={{ 
-                fontSize: '1.3rem', 
-                fontWeight: 'bold', 
-                textAlign: 'center', 
-                marginBottom: '20px',
-                color: '#ffffff',
-                textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
-              }}>
-                Choose Competition Format
-              </h4>
-              
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '15px'
-              }}>
-                <button
-                  onClick={() => setShowHouseSelection(true)}
-                  style={{
-                    backgroundColor: '#636363',
-                    color: 'white',
-                    padding: '20px',
-                    borderRadius: '8px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontWeight: 'bold',
-                    textAlign: 'center'
-                  }}
-                >
-                  <BookOpen style={{ width: '24px', height: '24px', margin: '0 auto 8px' }} />
-                  <div>Individual</div>
-                  <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Choose House</div>
-                </button>
-                
-                <button
-                  onClick={() => setupPlayers(2)}
-                  style={{
-                    backgroundColor: '#a3282f',
-                    color: 'white',
-                    padding: '20px',
-                    borderRadius: '8px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontWeight: 'bold',
-                    textAlign: 'center'
-                  }}
-                >
-                  <Users style={{ width: '24px', height: '24px', margin: '0 auto 8px' }} />
-                  <div>2 Houses</div>
-                  <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Competition</div>
-                </button>
-                
-                <button
-                  onClick={() => setupPlayers(3)}
-                  style={{
-                    backgroundColor: '#373737',
-                    color: 'white',
-                    padding: '20px',
-                    borderRadius: '8px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontWeight: 'bold',
-                    textAlign: 'center'
-                  }}
-                >
-                  <Trophy style={{ width: '24px', height: '24px', margin: '0 auto 8px' }} />
-                  <div>Championship</div>
-                  <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>All Houses</div>
-                </button>
-                
-                <button
-                  onClick={() => setShowHouseSelection(true)}
-                  style={{
-                    backgroundColor: '#002f5c',
-                    color: 'white',
-                    padding: '20px',
-                    borderRadius: '8px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontWeight: 'bold',
-                    textAlign: 'center'
-                  }}
-                >
-                  <Crown style={{ width: '24px', height: '24px', margin: '0 auto 8px' }} />
-                  <div>Quick Start</div>
-                  <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Choose House</div>
-                </button>
-              </div>
-            </div>
+              History Championship
+            </h2>
+            <p style={{ 
+              color: '#e5e5e5', 
+              fontSize: '1.25rem',
+              fontStyle: 'italic'
+            }}>
+              "MANIBUS POTENTIA STUDIUM ANIMIS"
+            </p>
           </div>
-        </div>
 
-        {/* House Selection Modal */}
-        {showHouseSelection && (
           <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            backdropFilter: 'blur(5px)'
+            marginBottom: '40px',
+            padding: '20px',
+            background: 'rgba(130,0,33,0.1)',
+            borderRadius: '12px',
+            border: '1px solid rgba(130,0,33,0.2)'
           }}>
-            <div className="mystical-card ethereal-border" style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.95)',
-              padding: '40px',
-              borderRadius: '25px',
-              boxShadow: '0 25px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3)',
-              backdropFilter: 'blur(20px)',
-              border: '3px solid rgba(255, 215, 0, 0.4)',
-              maxWidth: '600px',
-              width: '90%',
-              position: 'relative'
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '15px'
             }}>
               <button
-                onClick={() => setShowHouseSelection(false)}
+                onClick={() => setShowHouseSelection(true)}
                 style={{
-                  position: 'absolute',
-                  top: '15px',
-                  right: '15px',
-                  background: 'rgba(163, 40, 47, 0.1)',
-                  border: '2px solid #a3282f',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  backgroundColor: '#636363',
+                  color: 'white',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  border: 'none',
                   cursor: 'pointer',
                   fontSize: '1.2rem',
-                  color: '#a3282f',
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontFamily: "'Century Gothic', sans-serif"
                 }}
               >
-                ×
+                <BookOpen style={{ width: '24px', height: '24px', margin: '0 auto 8px' }} />
+                <div>Individual</div>
+                <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Choose House</div>
               </button>
-
-              <h2 style={{
-                fontSize: '2rem',
-                fontWeight: '900',
-                textAlign: 'center',
-                marginBottom: '10px',
-                color: '#a3282f',
-                fontFamily: '"Playfair Display", serif',
-                letterSpacing: '1px'
-              }}>
-                👑 Choose Your Royal House 👑
-              </h2>
               
-              <p style={{
-                textAlign: 'center',
-                marginBottom: '30px',
-                color: '#373737',
-                fontSize: '1.1rem',
-                fontFamily: '"Crimson Text", serif',
-                fontStyle: 'italic'
-              }}>
-                Select the house you wish to represent in the quiz
-              </p>
-
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '20px'
-              }}>
-                {HOUSES.map((house) => (
-                  <button
-                    key={house.name}
-                    onClick={() => {
-                      setupPlayers(1, house.name);
-                      setShowHouseSelection(false);
-                    }}
-                    style={{
-                      backgroundColor: 'transparent',
-                      border: `4px solid ${house.color}`,
-                      borderRadius: '18px',
-                      overflow: 'hidden',
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      transform: 'scale(1)',
-                      boxShadow: `0 8px 25px rgba(0,0,0,0.2), 0 0 15px ${house.color}30`
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.05)';
-                      e.currentTarget.style.boxShadow = `0 12px 35px rgba(0,0,0,0.3), 0 0 25px ${house.color}50`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)';
-                      e.currentTarget.style.boxShadow = `0 8px 25px rgba(0,0,0,0.2), 0 0 15px ${house.color}30`;
-                    }}
-                  >
-                    <div style={{
-                      height: '120px',
-                      position: 'relative',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent'
-                    }}>
-                      <img 
-                        src={house.officialImage}
-                        alt={`${house.name} House`}
-                        style={{
-                          maxWidth: '100%',
-                          maxHeight: '100%',
-                          objectFit: 'contain',
-                          display: 'block'
-                        }}
-                      />
-                      <div style={{
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                        backgroundColor: `${house.color}`,
-                        color: 'white',
-                        borderRadius: '50%',
-                        width: '30px',
-                        height: '30px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '1.1rem',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
-                      }}>
-                        {house.emblem}
-                      </div>
-                    </div>
-                    <div style={{ padding: '15px', backgroundColor: house.color }}>
-                      <h4 style={{ 
-                        fontWeight: 'bold', 
-                        fontSize: '1.1rem',
-                        color: 'white',
-                        margin: '0 0 5px 0',
-                        fontFamily: '"Playfair Display", serif'
-                      }}>
-                        House {house.name}
-                      </h4>
-                      <p style={{ 
-                        fontSize: '0.8rem', 
-                        opacity: 0.9,
-                        color: 'white',
-                        margin: 0,
-                        fontFamily: '"Crimson Text", serif'
-                      }}>
-                        {house.dynasty}
-                      </p>
-                    </div>
-                  </button>
-                ))}
-              </div>
+              <button
+                onClick={() => setupPlayers(2)}
+                style={{
+                  backgroundColor: '#a3282f',
+                  color: 'white',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '1.1rem',
+                  fontWeight: 'bold',
+                  fontFamily: "'Century Gothic', sans-serif"
+                }}
+              >
+                <Users style={{ width: '24px', height: '24px', margin: '0 auto 8px' }} />
+                <div>2 Houses</div>
+                <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Competition</div>
+              </button>
+              
+              <button
+                onClick={() => setupPlayers(3)}
+                style={{
+                  backgroundColor: '#373737',
+                  color: 'white',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '1.1rem',
+                  fontWeight: 'bold',
+                  fontFamily: "'Century Gothic', sans-serif"
+                }}
+              >
+                <Trophy style={{ width: '24px', height: '24px', margin: '0 auto 8px' }} />
+                <div>Championship</div>
+                <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>All Houses</div>
+              </button>
+              
+              <button
+                onClick={() => setShowHouseSelection(true)}
+                style={{
+                  backgroundColor: '#002f5c',
+                  color: 'white',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '1.1rem',
+                  fontWeight: 'bold',
+                  fontFamily: "'Century Gothic', sans-serif"
+                }}
+              >
+                <Crown style={{ width: '24px', height: '24px', margin: '0 auto 8px' }} />
+                <div>Quick Start</div>
+                <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Choose House</div>
+              </button>
             </div>
           </div>
-        )}
+        </div>
       </div>
     );
   }
@@ -1096,300 +379,243 @@ function App() {
     return (
       <div style={{
         minHeight: '100vh',
-        background: houseTheme.background,
+        background: houseTheme,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: '20px',
-        position: 'relative',
-        overflow: 'hidden'
+        fontFamily: "'Century Gothic', 'Segoe UI', sans-serif"
       }}>
-        {/* House-themed floating particles */}
         <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
+          backgroundColor: 'rgba(255,255,255,0.95)',
+          padding: '40px',
+          borderRadius: '20px',
+          maxWidth: '900px',
           width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
-          zIndex: 1
+          boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
         }}>
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={`house-particle-${i}`}
-              style={{
-                position: 'absolute',
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                fontSize: `${Math.random() * 2 + 1.5}rem`,
-                color: `${houseTheme.accentColor}40`,
-                animation: `twinkle ${Math.random() * 4 + 3}s ease-in-out infinite`,
-                animationDelay: `${Math.random() * 6}s`,
-                filter: `drop-shadow(0 0 ${Math.random() * 15 + 10}px ${houseTheme.accentColor}60)`
-              }}
-            >
-              {houseTheme.particles[Math.floor(Math.random() * houseTheme.particles.length)]}
-            </div>
-          ))}
-        </div>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          {/* Header */}
+          {/* Header with Player Info */}
           <div style={{
-            backgroundColor: `${houseTheme.accentColor}20`,
-            padding: '20px',
-            borderRadius: '12px',
-            marginBottom: '20px',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            border: `2px solid ${houseTheme.accentColor}40`,
-            position: 'relative',
-            zIndex: 10
-          }}>
-            {/* Back to Home Button */}
-            <button
-              onClick={resetGame}
-              style={{
-                backgroundColor: '#636363',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '10px 15px',
-                cursor: 'pointer',
-                fontSize: '0.9rem',
-                fontWeight: 'bold',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#505050';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#636363';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-            >
-              🏠 Home
-            </button>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-              <div style={{
-                backgroundColor: houseTheme.accentColor,
-                padding: '10px',
-                borderRadius: '50%',
-                boxShadow: `0 0 20px ${houseTheme.accentColor}60`
-              }}>
-                <School style={{ width: '24px', height: '24px', color: 'white' }} />
-              </div>
-              <div>
-                <h1 style={{ 
-                  fontSize: '1.8rem', 
-                  fontWeight: 'bold', 
-                  color: houseTheme.accentColor,
-                  margin: 0,
-                  textShadow: `0 0 10px ${houseTheme.accentColor}60`
-                }}>
-                  St. Paul's History Challenge
-                </h1>
-                <p style={{ color: '#e5e5e5', margin: 0 }}>House {currentPlayer.house} - Centenary Edition</p>
-              </div>
-            </div>
-            <div style={{
-              fontSize: '2rem',
-              fontWeight: 'bold',
-              color: timeLeft <= 10 ? '#ff4444' : houseTheme.accentColor,
-              backgroundColor: 'rgba(0,0,0,0.4)',
-              padding: '10px 20px',
-              borderRadius: '50%',
-              border: `2px solid ${timeLeft <= 10 ? '#ff4444' : houseTheme.accentColor}`,
-              boxShadow: `0 0 20px ${timeLeft <= 10 ? '#ff4444' : houseTheme.accentColor}60`
-            }}>
-              {timeLeft}s
-            </div>
-          </div>
-
-          {/* Players */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '20px',
             marginBottom: '30px'
           }}>
-            {players.map((player, index) => (
-              <div
-                key={index}
-                style={{
-                  backgroundColor: index === currentPlayerIndex ? HOUSES.find(h => h.name === player.house)?.color : 'rgba(255,255,255,0.1)',
-                  padding: '20px',
-                  borderRadius: '12px',
-                  textAlign: 'center',
-                  border: index === currentPlayerIndex ? '3px solid #a3282f' : 'none'
-                }}
-              >
-                <div style={{ fontSize: '2rem', marginBottom: '10px' }}>
-                  {getHouseEmblem(player.house)}
-                </div>
-                <div style={{ color: 'white', fontWeight: 'bold', fontSize: '1.2rem' }}>
-                  {player.name}
-                </div>
-                <div style={{ color: '#a3282f', fontWeight: 'bold' }}>
-                  HOUSE {player.house.toUpperCase()}
-                </div>
-                <div style={{
-                  backgroundColor: 'rgba(0,0,0,0.4)',
-                  padding: '10px',
-                  borderRadius: '8px',
-                  marginTop: '10px'
-                }}>
-                  <div style={{ 
-                    color: '#a3282f', 
-                    fontSize: '1.5rem', 
-                    fontWeight: 'bold' 
-                  }}>
-                    {player.score}
-                  </div>
-                  <div style={{ color: 'white', fontSize: '0.8rem' }}>Points</div>
-                </div>
-                {index === currentPlayerIndex && (
-                  <div style={{
-                    backgroundColor: '#a3282f',
-                    color: 'white',
-                    padding: '5px 10px',
-                    borderRadius: '20px',
-                    fontSize: '0.8rem',
-                    fontWeight: 'bold',
-                    marginTop: '10px'
-                  }}>
-                    YOUR TURN!
-                  </div>
-                )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <div style={{
+                fontSize: '2rem'
+              }}>
+                {getHouseEmblem(currentPlayer.house)}
               </div>
-            ))}
+              <div>
+                <h3 style={{ 
+                  margin: 0, 
+                  fontSize: '1.5rem',
+                  color: '#333'
+                }}>
+                  {currentPlayer.name}
+                </h3>
+                <p style={{ 
+                  margin: 0, 
+                  color: houseTheme,
+                  fontWeight: 'bold',
+                  fontSize: '1.1rem'
+                }}>
+                  House {currentPlayer.house}
+                </p>
+              </div>
+            </div>
+            
+            <div style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
+              <div style={{ textAlign: 'center' }}>
+                <p style={{ margin: 0, color: '#666', fontSize: '0.9rem' }}>Round</p>
+                <p style={{ margin: 0, fontSize: '1.5rem', fontWeight: 'bold', color: '#333' }}>{round}/10</p>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <p style={{ margin: 0, color: '#666', fontSize: '0.9rem' }}>Score</p>
+                <p style={{ margin: 0, fontSize: '1.5rem', fontWeight: 'bold', color: houseTheme }}>{currentPlayer.score}</p>
+              </div>
+              <div style={{
+                textAlign: 'center',
+                padding: '10px 20px',
+                borderRadius: '10px',
+                backgroundColor: timeLeft <= 5 ? 'rgba(130,0,33,0.1)' : 'rgba(255,255,255,0.1)',
+                minWidth: '80px'
+              }}>
+                <p style={{ margin: 0, color: '#666', fontSize: '0.9rem' }}>Time</p>
+                <p style={{ 
+                  margin: 0, 
+                  fontSize: '1.8rem', 
+                  fontWeight: 'bold',
+                  color: timeLeft <= 5 ? '#820021' : '#4caf50'
+                }}>
+                  {timeLeft}
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Question */}
-          <div style={{
-            backgroundColor: 'rgba(255,255,255,0.1)',
-            padding: '30px',
-            borderRadius: '12px'
-          }}>
-            <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+          {currentQuestion && (
+            <>
               <div style={{
-                backgroundColor: '#a3282f',
-                color: 'white',
-                padding: '8px 16px',
-                borderRadius: '20px',
-                display: 'inline-block',
-                marginBottom: '20px',
-                fontSize: '1.2rem',
-                fontWeight: 'bold'
+                backgroundColor: '#f8f8f8',
+                padding: '30px',
+                borderRadius: '15px',
+                marginBottom: '30px'
               }}>
-                {currentQuestion.year}
-              </div>
-              <h2 style={{ 
-                color: 'white', 
-                fontSize: '1.5rem', 
-                fontWeight: 'bold',
-                lineHeight: '1.4'
-              }}>
-                {currentQuestion.question}
-              </h2>
-            </div>
-
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: '15px',
-              marginBottom: '20px'
-            }}>
-              {Object.entries(currentQuestion.options).map(([key, value]) => (
-                <button
-                  key={key}
-                  onClick={() => handleAnswer(key)}
-                  disabled={showAnswer}
-                  style={{
-                    backgroundColor: showAnswer
-                      ? selectedAnswer === key
-                        ? isCorrect ? houseTheme.accentColor : '#a3282f'
-                        : key === currentQuestion.answer ? houseTheme.accentColor + '40' : 'rgba(255,255,255,0.1)'
-                      : 'rgba(255,255,255,0.1)',
-                    color: 'white',
-                    padding: '20px',
-                    borderRadius: '8px',
-                    border: showAnswer && key === currentQuestion.answer ? `2px solid ${houseTheme.accentColor}` : 'none',
-                    cursor: showAnswer ? 'default' : 'pointer',
-                    textAlign: 'left',
-                    fontSize: '1rem',
-                    transition: 'all 0.3s ease',
-                    position: 'relative',
-                    zIndex: 10
-                  }}
-                >
-                  <span style={{
-                    backgroundColor: `${houseTheme.accentColor}CC`,
-                    color: 'white',
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    marginRight: '10px',
-                    fontWeight: 'bold',
-                    boxShadow: `0 0 10px ${houseTheme.accentColor}60`
-                  }}>
-                    {key}
-                  </span>
-                  {value}
-                </button>
-              ))}
-            </div>
-
-            {showAnswer && (
-              <div style={{
-                textAlign: 'center',
-                padding: '20px',
-                borderRadius: '8px',
-                backgroundColor: 'rgba(0,0,0,0.3)'
-              }}>
-                <div style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 'bold',
-                  marginBottom: '10px',
-                  color: isCorrect ? '#4ade80' : '#f87171'
+                <h2 style={{ 
+                  fontSize: '1.8rem', 
+                  marginBottom: '15px',
+                  color: '#333',
+                  textAlign: 'center'
                 }}>
-                  {isCorrect ? '✓ Excellent! Well done!' : 'Not quite right this time'}
-                </div>
-                {!isCorrect && (
-                  <div>
-                    <p style={{ color: 'white', fontSize: '1rem', marginBottom: '10px' }}>
-                      <span style={{ color: houseTheme.accentColor, fontWeight: 'bold' }}>
-                        Correct answer: 
-                      </span>
-                      <span style={{ fontWeight: 'bold', marginLeft: '5px' }}>
-                        {currentQuestion.options[currentQuestion.answer as keyof typeof currentQuestion.options]}
-                      </span>
-                    </p>
-                    <p style={{ color: '#e5e5e5', fontStyle: 'italic' }}>
-                      Keep studying our magnificent school history! 📚
-                    </p>
-                  </div>
+                  {currentQuestion.question}
+                </h2>
+                
+                {currentQuestion.hint && (
+                  <p style={{
+                    fontStyle: 'italic',
+                    color: '#666',
+                    textAlign: 'center',
+                    marginTop: '10px',
+                    fontSize: '1.1rem'
+                  }}>
+                    💡 Hint: {currentQuestion.hint}
+                  </p>
                 )}
               </div>
-            )}
-          </div>
+
+              {/* Options */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '15px',
+                marginBottom: '30px'
+              }}>
+                {currentQuestion.options.map((option, index) => {
+                  const isSelected = selectedAnswer === option;
+                  const isCorrect = option === currentQuestion.answer;
+                  let buttonStyle: any = {
+                    padding: '20px',
+                    borderRadius: '12px',
+                    border: '2px solid #e0e0e0',
+                    cursor: showAnswer ? 'default' : 'pointer',
+                    fontSize: '1.1rem',
+                    fontWeight: '500',
+                    transition: 'all 0.3s ease',
+                    backgroundColor: 'white',
+                    color: '#333',
+                    textAlign: 'left',
+                    fontFamily: "'Century Gothic', sans-serif"
+                  };
+
+                  if (showAnswer) {
+                    if (isCorrect) {
+                      buttonStyle = {
+                        ...buttonStyle,
+                        backgroundColor: '#4caf50',
+                        color: 'white',
+                        border: '2px solid #4caf50',
+                        transform: 'scale(1.02)'
+                      };
+                    } else if (isSelected && !isCorrect) {
+                      buttonStyle = {
+                        ...buttonStyle,
+                        backgroundColor: '#f44336',
+                        color: 'white',
+                        border: '2px solid #f44336'
+                      };
+                    }
+                  } else if (isSelected) {
+                    buttonStyle = {
+                      ...buttonStyle,
+                      backgroundColor: houseTheme,
+                      color: 'white',
+                      border: `2px solid ${houseTheme}`,
+                      transform: 'scale(1.02)'
+                    };
+                  }
+
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => !showAnswer && handleAnswer(option)}
+                      disabled={showAnswer}
+                      style={buttonStyle}
+                      onMouseEnter={(e) => {
+                        if (!showAnswer && !isSelected) {
+                          e.currentTarget.style.backgroundColor = '#f5f5f5';
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!showAnswer && !isSelected) {
+                          e.currentTarget.style.backgroundColor = 'white';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }
+                      }}
+                    >
+                      <span style={{ fontWeight: 'bold', marginRight: '10px' }}>
+                        {String.fromCharCode(65 + index)}.
+                      </span>
+                      {option}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Show answer feedback */}
+              {showAnswer && (
+                <div style={{
+                  textAlign: 'center',
+                  padding: '20px',
+                  backgroundColor: selectedAnswer === currentQuestion.answer ? '#e8f5e9' : '#ffebee',
+                  borderRadius: '12px',
+                  marginBottom: '20px'
+                }}>
+                  <p style={{
+                    fontSize: '1.3rem',
+                    fontWeight: 'bold',
+                    color: selectedAnswer === currentQuestion.answer ? '#2e7d32' : '#c62828',
+                    margin: 0
+                  }}>
+                    {selectedAnswer === currentQuestion.answer ? '✅ Correct!' : '❌ Incorrect!'}
+                  </p>
+                  {selectedAnswer !== currentQuestion.answer && (
+                    <p style={{ 
+                      color: '#666', 
+                      marginTop: '10px',
+                      fontSize: '1.1rem'
+                    }}>
+                      The correct answer was: <strong>{currentQuestion.answer}</strong>
+                    </p>
+                  )}
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     );
   }
 
+  // Game Over Screen
   if (gameState === 'finished') {
-    const winner = players.reduce((prev, current) => (prev.score > current.score) ? prev : current);
     const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
-
+    const winner = sortedPlayers[0];
+    
     return (
       <div style={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #131313 0%, #373737 50%, #a3282f 100%)',
+        background: 'linear-gradient(135deg, #131313 0%, #373737 50%, #820021 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '20px'
+        padding: '20px',
+        fontFamily: "'Century Gothic', 'Segoe UI', sans-serif"
       }}>
         <div style={{
           backgroundColor: 'rgba(255,255,255,0.1)',
@@ -1402,7 +628,7 @@ function App() {
           <Crown style={{ 
             width: '80px', 
             height: '80px', 
-            color: '#a3282f', 
+            color: '#820021', 
             margin: '0 auto 20px' 
           }} />
           <h1 style={{ 
@@ -1413,7 +639,7 @@ function App() {
             Quiz Complete!
           </h1>
           <h2 style={{ 
-            color: '#a3282f', 
+            color: '#820021', 
             fontSize: '2rem', 
             marginBottom: '20px' 
           }}>
@@ -1437,8 +663,8 @@ function App() {
                   padding: '15px',
                   marginBottom: '10px',
                   borderRadius: '8px',
-                  backgroundColor: index === 0 ? 'rgba(163,40,47,0.2)' : 'rgba(255,255,255,0.1)',
-                  border: index === 0 ? '2px solid #a3282f' : 'none'
+                  backgroundColor: index === 0 ? 'rgba(130,0,33,0.2)' : 'rgba(255,255,255,0.1)',
+                  border: index === 0 ? '2px solid #820021' : 'none'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
@@ -1456,7 +682,7 @@ function App() {
                   </div>
                 </div>
                 <div style={{ 
-                  color: '#a3282f', 
+                  color: '#820021', 
                   fontSize: '1.5rem', 
                   fontWeight: 'bold' 
                 }}>
@@ -1474,7 +700,7 @@ function App() {
             <button
               onClick={resetGame}
               style={{
-                backgroundColor: '#636363',
+                backgroundColor: '#001d31',
                 color: 'white',
                 padding: '15px 25px',
                 borderRadius: '8px',
@@ -1484,7 +710,14 @@ function App() {
                 fontWeight: 'bold',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px'
+                gap: '8px',
+                fontFamily: "'Century Gothic', sans-serif"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#00243e';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#001d31';
               }}
             >
               🏠 Back to Home
@@ -1493,14 +726,21 @@ function App() {
             <button
               onClick={resetGame}
               style={{
-                backgroundColor: '#a3282f',
+                backgroundColor: '#820021',
                 color: 'white',
                 padding: '15px 30px',
                 borderRadius: '8px',
                 border: 'none',
                 cursor: 'pointer',
                 fontSize: '1.1rem',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                fontFamily: "'Century Gothic', sans-serif"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#9a0025';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#820021';
               }}
             >
               Play Again

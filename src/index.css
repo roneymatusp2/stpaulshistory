@@ -1,72 +1,98 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Century+Gothic&display=swap');
 
 :root {
-  /* CORES PRIMÁRIAS DA MARCA */
-  --sp-primary-red: #a3282f;     /* Vermelho oficial da escola - links, acentos, destaques */
-  --sp-dark-gray: #373737;       /* Cinza escuro - botões, cabeçalhos, navegação */
-  --sp-primary-text: #3f4449;    /* Texto primário - corpo, ícones, diálogos */
+  /* ST. PAUL'S SCHOOL OFFICIAL BRANDBOOK COLORS */
+  /* Primary Colors */
+  --sp-ruby-red: #820021;        /* Ruby Red - Primary brand color */
+  --sp-indigo-blue: #001d31;     /* Indigo Blue - Secondary brand color */
+  --sp-british-green: #002718;   /* British Green - Tertiary brand color */
   
-  /* CORES DE FUNDO */
-  --sp-white: #fff;              /* Branco - texto em fundos escuros, bordas */
-  --sp-light-gray: #f8f8f8;      /* Cinza claro - células de tabela */
-  --sp-medium-gray: #e5e5e5;     /* Cinza médio - linhas alternadas */
-  --sp-very-dark-gray: #131313;  /* Cinza muito escuro - estados hover */
+  /* Legacy mappings for compatibility */
+  --sp-primary-red: var(--sp-ruby-red);
+  --sp-dark-blue: var(--sp-indigo-blue);
+  --sp-dark-green: var(--sp-british-green);
   
-  /* CORES SECUNDÁRIAS E ACENTOS */
-  --sp-dark-blue: #002f5c;       /* Azul escuro - botões secundários */
-  --sp-border-gray: #636363;     /* Cinza médio - bordas, campos de formulário */
-  --sp-pure-black: #000;         /* Preto puro - botões de fechar */
+  /* Grayscale palette */
+  --sp-white: #ffffff;
+  --sp-light-gray: #f8f8f8;
+  --sp-medium-gray: #e5e5e5;
+  --sp-gray: #cccccc;
+  --sp-dark-gray: #666666;
+  --sp-very-dark-gray: #333333;
+  --sp-black: #000000;
   
-  /* CORES TRANSPARENTES */
-  --sp-transparent-text: rgba(63, 68, 73, 0.5);   /* Texto semi-transparente */
-  --sp-light-transparent: rgba(63, 68, 73, 0.25); /* Transparente claro */
-  --sp-transparent: transparent;
+  /* Text colors */
+  --sp-primary-text: var(--sp-very-dark-gray);
+  --sp-secondary-text: var(--sp-dark-gray);
+  --sp-light-text: var(--sp-gray);
   
-  /* PALETA ESTENDIDA - VARIAÇÕES DAS CORES OFICIAIS */
+  /* Background colors */
+  --sp-bg-primary: var(--sp-white);
+  --sp-bg-secondary: var(--sp-light-gray);
+  --sp-bg-dark: var(--sp-indigo-blue);
   
-  /* Variações do vermelho oficial */
-  --sp-primary-red-dark: #8a1e24;    /* Vermelho mais escuro */
-  --sp-primary-red-light: #c03940;   /* Vermelho mais claro */
-  --sp-primary-red-glow: rgba(163, 40, 47, 0.3);
-  --sp-primary-red-transparent: rgba(163, 40, 47, 0.1);
+  /* Transparent variations */
+  --sp-ruby-red-transparent: rgba(130, 0, 33, 0.1);
+  --sp-indigo-blue-transparent: rgba(0, 29, 49, 0.1);
+  --sp-british-green-transparent: rgba(0, 39, 24, 0.1);
   
-  /* Variações do azul oficial */
-  --sp-dark-blue-light: #1a4d73;
-  --sp-dark-blue-glow: rgba(0, 47, 92, 0.3);
-  --sp-dark-blue-transparent: rgba(0, 47, 92, 0.1);
+  /* Darker variations for gradients (K90 as per brandbook) */
+  --sp-ruby-red-dark: #2b000b;
+  --sp-indigo-blue-dark: #000a10;
+  --sp-british-green-dark: #000c08;
   
-  /* Variações dos cinzas oficiais */
-  --sp-gray-50: #f9f9f9;
-  --sp-gray-100: #f0f0f0;
-  --sp-gray-200: var(--sp-medium-gray);
-  --sp-gray-300: #d4d4d4;
-  --sp-gray-400: #a3a3a3;
-  --sp-gray-500: var(--sp-border-gray);
-  --sp-gray-600: #525252;
-  --sp-gray-700: var(--sp-dark-gray);
-  --sp-gray-800: #262626;
-  --sp-gray-900: var(--sp-very-dark-gray);
+  /* Official gradients as per brandbook */
+  --sp-gradient-red: linear-gradient(135deg, var(--sp-ruby-red) 0%, var(--sp-ruby-red-dark) 100%);
+  --sp-gradient-blue: linear-gradient(135deg, var(--sp-indigo-blue) 0%, var(--sp-indigo-blue-dark) 100%);
+  --sp-gradient-green: linear-gradient(135deg, var(--sp-british-green) 0%, var(--sp-british-green-dark) 100%);
   
-  /* Gradientes oficiais */
-  --sp-gradient-primary: linear-gradient(135deg, var(--sp-primary-red) 0%, var(--sp-primary-red-dark) 100%);
-  --sp-gradient-blue: linear-gradient(135deg, var(--sp-dark-blue) 0%, var(--sp-dark-blue-light) 100%);
-  --sp-gradient-gray: linear-gradient(135deg, var(--sp-dark-gray) 0%, var(--sp-very-dark-gray) 100%);
-  --sp-gradient-text: linear-gradient(135deg, var(--sp-primary-red) 0%, var(--sp-dark-blue) 50%, var(--sp-primary-red) 100%);
+  /* Shadow system */
+  --sp-shadow-sm: 0 1px 2px rgba(0, 29, 49, 0.05);
+  --sp-shadow-md: 0 4px 6px rgba(0, 29, 49, 0.07);
+  --sp-shadow-lg: 0 10px 15px rgba(0, 29, 49, 0.1);
+  --sp-shadow-xl: 0 20px 25px rgba(0, 29, 49, 0.1);
+  --sp-shadow-glow-red: 0 0 20px rgba(130, 0, 33, 0.3);
+  --sp-shadow-glow-blue: 0 0 20px rgba(0, 29, 49, 0.3);
+  --sp-shadow-glow-green: 0 0 20px rgba(0, 39, 24, 0.3);
   
-  /* SISTEMA DE SOMBRAS OFICIAL */
-  --sp-shadow-sm: 0 1px 2px rgba(63, 68, 73, 0.05);
-  --sp-shadow-md: 0 4px 6px rgba(63, 68, 73, 0.07);
-  --sp-shadow-lg: 0 10px 15px rgba(63, 68, 73, 0.1);
-  --sp-shadow-xl: 0 20px 25px rgba(63, 68, 73, 0.1);
-  --sp-shadow-glow-red: 0 0 20px var(--sp-primary-red-glow);
-  --sp-shadow-glow-blue: 0 0 20px var(--sp-dark-blue-glow);
-  
-  /* ANIMAÇÕES MODERNAS */
+  /* Animation timing */
   --sp-transition-fast: 0.15s ease-out;
   --sp-transition-normal: 0.3s ease-out;
   --sp-transition-slow: 0.5s ease-out;
   --sp-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   --sp-easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Additional color variations for UI elements */
+  --sp-ruby-red-light: rgba(130, 0, 33, 0.8);
+  --sp-ruby-red-glow: rgba(130, 0, 33, 0.3);
+  --sp-indigo-blue-light: rgba(0, 29, 49, 0.8);
+  --sp-indigo-blue-glow: rgba(0, 29, 49, 0.3);
+  --sp-british-green-light: rgba(0, 39, 24, 0.8);
+  --sp-british-green-glow: rgba(0, 39, 24, 0.3);
+  
+  /* Compatibility mappings */
+  --sp-primary-red-transparent: var(--sp-ruby-red-transparent);
+  --sp-dark-blue-transparent: var(--sp-indigo-blue-transparent);
+  --sp-primary-red-glow: var(--sp-ruby-red-glow);
+  --sp-dark-blue-glow: var(--sp-indigo-blue-glow);
+  --sp-primary-red-dark: var(--sp-ruby-red-dark);
+  --sp-gradient-primary: var(--sp-gradient-red);
+  
+  /* Gray scale for UI */
+  --sp-gray-50: #f9f9f9;
+  --sp-gray-100: #f0f0f0;
+  --sp-gray-200: #e5e5e5;
+  --sp-gray-300: #d4d4d4;
+  --sp-gray-400: #a3a3a3;
+  --sp-gray-500: #737373;
+  --sp-gray-600: #525252;
+  --sp-gray-700: #404040;
+  --sp-gray-800: #262626;
+  --sp-gray-900: #171717;
+  
+  /* Border colors */
+  --sp-border-gray: var(--sp-gray-300);
+  --sp-pure-black: var(--sp-black);
 }
 
 * {
@@ -76,10 +102,11 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Century Gothic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--sp-primary-text);
-  background: var(--sp-gray-50);
+  background: var(--sp-bg-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -92,11 +119,11 @@ body {
 
 @keyframes sp-pulse-glow {
   0%, 100% { 
-    box-shadow: 0 0 5px var(--sp-primary-red-glow);
+    box-shadow: 0 0 5px var(--sp-ruby-red-glow);
     transform: scale(1);
   }
   50% { 
-    box-shadow: 0 0 20px var(--sp-primary-red-glow), 0 0 30px var(--sp-primary-red-glow);
+    box-shadow: 0 0 20px var(--sp-ruby-red-glow), 0 0 30px var(--sp-ruby-red-glow);
     transform: scale(1.02);
   }
 }
@@ -149,10 +176,10 @@ body {
 
 @keyframes sp-glowPulse {
   0%, 100% {
-    box-shadow: 0 0 5px var(--sp-primary-red-glow);
+    box-shadow: 0 0 5px var(--sp-ruby-red-glow);
   }
   50% {
-    box-shadow: 0 0 20px var(--sp-primary-red-glow), 0 0 30px var(--sp-primary-red-glow);
+    box-shadow: 0 0 20px var(--sp-ruby-red-glow), 0 0 30px var(--sp-ruby-red-glow);
   }
 }
 
@@ -178,33 +205,44 @@ body {
 }
 
 .sp-glass-red {
-  background: var(--sp-primary-red-transparent);
+  background: var(--sp-ruby-red-transparent);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(163, 40, 47, 0.3);
+  border: 1px solid rgba(130, 0, 33, 0.3);
 }
 
 .sp-glass-blue {
-  background: var(--sp-dark-blue-transparent);
+  background: var(--sp-indigo-blue-transparent);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 47, 92, 0.3);
+  border: 1px solid rgba(0, 29, 49, 0.3);
+}
+
+.sp-glass-green {
+  background: var(--sp-british-green-transparent);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 39, 24, 0.3);
 }
 
 .sp-glow-red {
-  box-shadow: 0 0 20px var(--sp-primary-red-glow);
+  box-shadow: 0 0 20px var(--sp-ruby-red-glow);
   transition: box-shadow var(--sp-transition-normal);
 }
 
 .sp-glow-blue {
-  box-shadow: 0 0 20px var(--sp-dark-blue-glow);
+  box-shadow: 0 0 20px var(--sp-indigo-blue-glow);
+  transition: box-shadow var(--sp-transition-normal);
+}
+
+.sp-glow-green {
+  box-shadow: 0 0 20px var(--sp-british-green-glow);
   transition: box-shadow var(--sp-transition-normal);
 }
 
 .sp-glow-hover:hover {
-  box-shadow: 0 0 30px var(--sp-primary-red-glow), 0 0 40px var(--sp-primary-red-glow);
+  box-shadow: 0 0 30px var(--sp-ruby-red-glow), 0 0 40px var(--sp-ruby-red-glow);
 }
 
 .sp-text-gradient {
-  background: var(--sp-gradient-text);
+  background: var(--sp-gradient-red);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -213,9 +251,9 @@ body {
 .sp-text-shimmer {
   background: linear-gradient(
     90deg,
-    var(--sp-primary-red) 0%,
+    var(--sp-ruby-red) 0%,
     var(--sp-white) 50%,
-    var(--sp-primary-red) 100%
+    var(--sp-ruby-red) 100%
   );
   background-size: 200% 100%;
   -webkit-background-clip: text;
@@ -234,7 +272,7 @@ body {
   cursor: pointer;
   transition: all var(--sp-transition-normal);
   overflow: hidden;
-  background: var(--sp-gradient-primary);
+  background: var(--sp-gradient-red);
   color: var(--sp-white);
   box-shadow: var(--sp-shadow-md);
 }
@@ -274,12 +312,12 @@ body {
 
 .sp-btn-outline {
   background: transparent;
-  border: 2px solid var(--sp-primary-red);
-  color: var(--sp-primary-red);
+  border: 2px solid var(--sp-ruby-red);
+  color: var(--sp-ruby-red);
 }
 
 .sp-btn-outline:hover {
-  background: var(--sp-primary-red);
+  background: var(--sp-ruby-red);
   color: var(--sp-white);
 }
 
@@ -333,12 +371,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--sp-gradient-primary);
+  background: var(--sp-gradient-red);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--sp-primary-red-dark);
+  background: var(--sp-ruby-red-dark);
 }
 
 .sp-gpu-accelerated {
@@ -355,6 +393,6 @@ body {
 }
 
 *:focus-visible {
-  outline: 2px solid var(--sp-primary-red);
+  outline: 2px solid var(--sp-ruby-red);
   outline-offset: 2px;
 }
