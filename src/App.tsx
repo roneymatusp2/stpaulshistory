@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { School, Trophy, Users, Calendar, BookOpen, Crown, Star, Globe, Award, Shield } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { School, Trophy, Users, Calendar, BookOpen, Crown, Star, Globe, Award } from 'lucide-react';
 import { ALL_STPAULS_QUESTIONS, Question } from './data/allStPaulsQuestions';
 
 interface Player {
@@ -273,6 +273,107 @@ function App() {
             </p>
           </div>
 
+          {/* Headmaster Section */}
+          <div style={{
+            marginBottom: '40px',
+            padding: '30px',
+            background: 'rgba(255,255,255,0.05)',
+            borderRadius: '15px',
+            border: '1px solid rgba(255,255,255,0.1)'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '30px',
+              flexWrap: 'wrap',
+              justifyContent: 'center'
+            }}>
+              <img 
+                src="./images/titus-edge-headmaster.jpg" 
+                alt="Headmaster Titus Edge"
+                style={{
+                  width: '120px',
+                  height: '120px',
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  border: '3px solid #820021',
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.3)'
+                }}
+              />
+              <div style={{ textAlign: 'left' }}>
+                <h3 style={{ 
+                  color: '#820021', 
+                  fontSize: '1.5rem',
+                  marginBottom: '5px',
+                  fontWeight: 'bold'
+                }}>
+                  Welcome from the Headmaster
+                </h3>
+                <p style={{ 
+                  color: '#e5e5e5', 
+                  fontSize: '1rem',
+                  maxWidth: '500px',
+                  lineHeight: '1.6'
+                }}>
+                  "Our rich history shapes who we are today. Through this championship, 
+                  you'll discover the remarkable journey of St. Paul's School and test 
+                  your knowledge of our distinguished heritage."
+                </p>
+                <p style={{ 
+                  color: '#cccccc', 
+                  fontSize: '0.9rem',
+                  marginTop: '10px',
+                  fontStyle: 'italic'
+                }}>
+                  - Mr Titus Edge, Headmaster
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* House Images Display */}
+          <div style={{
+            marginBottom: '30px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '20px'
+          }}>
+            {HOUSES.map(house => (
+              <div key={house.name} style={{
+                padding: '20px',
+                background: `linear-gradient(135deg, ${house.color}22 0%, ${house.color}11 100%)`,
+                borderRadius: '12px',
+                border: `2px solid ${house.color}`,
+                textAlign: 'center'
+              }}>
+                <img 
+                  src={house.officialImage}
+                  alt={`${house.name} House Crest`}
+                  style={{
+                    width: '80px',
+                    height: '80px',
+                    objectFit: 'contain',
+                    marginBottom: '10px'
+                  }}
+                />
+                <h4 style={{ 
+                  color: house.color, 
+                  fontSize: '1.2rem',
+                  marginBottom: '5px',
+                  fontWeight: 'bold'
+                }}>
+                  {house.name} House
+                </h4>
+                <p style={{ 
+                  color: '#cccccc', 
+                  fontSize: '0.9rem'
+                }}>
+                  {house.dynasty}
+                </p>
+              </div>
+            ))}
+          </div>
+
           <div style={{
             marginBottom: '40px',
             padding: '20px',
@@ -280,7 +381,14 @@ function App() {
             borderRadius: '12px',
             border: '1px solid rgba(130,0,33,0.2)'
           }}>
-
+            <h3 style={{ 
+              color: 'white', 
+              fontSize: '1.8rem',
+              marginBottom: '20px',
+              fontWeight: 'bold'
+            }}>
+              Select Game Mode
+            </h3>
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(2, 1fr)',
@@ -305,7 +413,7 @@ function App() {
               >
                 <BookOpen style={{ width: '24px', height: '24px', margin: '0 auto 8px' }} />
                 <div>Individual</div>
-                <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Choose House</div>
+                <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Choose Your House</div>
               </button>
               
               <button
@@ -349,7 +457,7 @@ function App() {
               <button
                 onClick={() => setShowHouseSelection(true)}
                 style={{
-                  backgroundColor: '#002f5c',
+                  backgroundColor: '#002718',
                   color: 'white',
                   padding: '20px',
                   borderRadius: '8px',
@@ -357,13 +465,74 @@ function App() {
                   cursor: 'pointer',
                   fontSize: '1.1rem',
                   fontWeight: 'bold',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '4px',
                   fontFamily: "'Century Gothic', sans-serif"
                 }}
               >
-                <Crown style={{ width: '24px', height: '24px', margin: '0 auto 8px' }} />
-                <div>Quick Start</div>
-                <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Choose House</div>
+                <Star style={{ width: '24px', height: '24px' }} />
+                <div style={{
+                  fontSize: '1.1rem',
+                  color: 'white',
+                  fontWeight: 'bold'
+                }}>
+                  Practice Mode
+                </div>
+                <div style={{
+                  fontSize: '0.8rem',
+                  color: '#cccccc',
+                  marginTop: '4px'
+                }}>
+                  Hone your knowledge
+                </div>
               </button>
+            </div>
+          </div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            marginBottom: '20px',
+            color: '#cccccc',
+            fontSize: '0.9rem'
+          }}>
+            <div>🎓 Individual Mode: Play solo representing your chosen House</div>
+            <div>🏆 2 Houses: Head-to-head competition between Houses</div>
+            <div>👑 Championship: All three Houses compete for glory</div>
+            <div>📚 Practice Mode: Perfect your knowledge without scoring</div>
+          </div>
+
+          <div style={{
+            marginTop: '40px',
+            padding: '20px',
+            background: 'rgba(0,0,0,0.2)',
+            borderRadius: '8px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '15px',
+            alignItems: 'center'
+          }}>
+            <div style={{
+              display: 'flex',
+              gap: '25px',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              justifyContent: 'center'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Calendar style={{ width: '20px', height: '20px', color: '#820021' }} />
+                <span style={{ color: '#e5e5e5' }}>Founded 1509 by John Colet</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Globe style={{ width: '20px', height: '20px', color: '#001d31' }} />
+                <span style={{ color: '#e5e5e5' }}>Over 500 years of excellence</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Award style={{ width: '20px', height: '20px', color: '#002718' }} />
+                <span style={{ color: '#e5e5e5' }}>Preparing leaders for tomorrow</span>
+              </div>
             </div>
           </div>
         </div>
@@ -597,6 +766,129 @@ function App() {
               )}
             </>
           )}
+        </div>
+      </div>
+    );
+  }
+
+  // House Selection Modal
+  if (showHouseSelection) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #131313 0%, #373737 50%, #820021 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px',
+        fontFamily: "'Century Gothic', 'Segoe UI', sans-serif"
+      }}>
+        <div style={{
+          backgroundColor: 'rgba(255,255,255,0.95)',
+          padding: '60px',
+          borderRadius: '20px',
+          textAlign: 'center',
+          maxWidth: '900px',
+          width: '100%',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+        }}>
+          <h2 style={{ 
+            color: '#820021', 
+            fontSize: '2.5rem',
+            marginBottom: '30px',
+            fontWeight: 'bold'
+          }}>
+            Select Your House
+          </h2>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '30px',
+            marginBottom: '40px'
+          }}>
+            {HOUSES.map(house => (
+              <button
+                key={house.name}
+                onClick={() => {
+                  const player: Player = {
+                    name: 'Player 1',
+                    house: house.name as 'Tudor' | 'Stuart' | 'Windsor',
+                    score: 0
+                  };
+                  setPlayers([player]);
+                  setShowHouseSelection(false);
+                  setupPlayers(1, player.house);
+                }}
+                style={{
+                  backgroundColor: 'white',
+                  border: `3px solid ${house.color}`,
+                  borderRadius: '15px',
+                  padding: '30px',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  textAlign: 'center'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = house.color;
+                  e.currentTarget.style.color = 'white';
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'white';
+                  e.currentTarget.style.color = house.color;
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                <img 
+                  src={house.officialImage}
+                  alt={`${house.name} House Crest`}
+                  style={{
+                    width: '100px',
+                    height: '100px',
+                    objectFit: 'contain',
+                    marginBottom: '15px'
+                  }}
+                />
+                <h3 style={{ 
+                  fontSize: '1.8rem',
+                  marginBottom: '10px',
+                  fontWeight: 'bold'
+                }}>
+                  {house.name} House
+                </h3>
+                <p style={{ 
+                  fontSize: '1rem',
+                  opacity: 0.8
+                }}>
+                  {house.dynasty}
+                </p>
+                <div style={{ 
+                  fontSize: '2rem',
+                  marginTop: '10px'
+                }}>
+                  {house.emblem}
+                </div>
+              </button>
+            ))}
+          </div>
+          
+          <button
+            onClick={() => setShowHouseSelection(false)}
+            style={{
+              backgroundColor: '#666666',
+              color: 'white',
+              padding: '15px 40px',
+              borderRadius: '8px',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '1.1rem',
+              fontWeight: 'bold',
+              fontFamily: "'Century Gothic', sans-serif"
+            }}
+          >
+            Back to Main Menu
+          </button>
         </div>
       </div>
     );
